@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mattyork/fuzzy@0.1.3/fuzzy-min.js"></script>
+    <style>
+        b {
+          color: red;
+        }
+      </style>
+</head>
+<body>
+    <script>
+        var list = [
+            {rompalu: 'baconing', zibbity: 'simba'},
+            {rompalu: 'narwhal' , zibbity: 'mufasa'},
+            {rompalu: 'a mighty bear canoe', zibbity: 'saddam hussein'}
+        ];
+        
+        function listCharacters() {
+            var search = $('#search').val();
+
+            var options = {
+                pre: "<b>",
+                post: "</b>", 
+                extract: function(el) { return el.rompalu; }
+            }
+
+            var filtered = fuzzy.filter(search, list, options);
+
+            // process the results to extract the strings
+            var newCharacters = filtered.map(function(el) {
+                return '<li>' + el.string + '</li>';
+            });
+
+            $('#characters').html(newCharacters.join(''));
+        }
+
+        $(function() {
+            // List the initial characters
+            listCharacters();
+
+            // Filter the characters on each change of the textbox
+            $('#search').keyup(listCharacters);
+        });
+        debugger;
+    </script>
+    <h1>Search</h1>
+    <input type="text" id="search" class="search"></input>
+    <ul id="characters">
+    </ul>
+</body>
+</html>
